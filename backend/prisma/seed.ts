@@ -1,4 +1,4 @@
-import { PrismaClient, PostType, MealType, EventType, Role } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
@@ -14,7 +14,7 @@ async function main() {
       email: 'admin@example.com',
       password: hashedPassword,
       nickname: 'Administrator',
-      role: Role.ADMIN,
+      role: 'ADMIN',
     },
   });
 
@@ -26,7 +26,7 @@ async function main() {
       email: 'student@example.com',
       password: hashedPassword,
       nickname: 'Student1',
-      role: Role.STUDENT,
+      role: 'STUDENT',
     },
   });
 
@@ -47,8 +47,8 @@ async function main() {
   await prisma.menu.create({
     data: {
       date: new Date(),
-      mealType: MealType.LUNCH,
-      items: ['Rice', 'Kimchi Stew', 'Stir-fried Pork', 'Seaweed'],
+      mealType: 'LUNCH',
+      items: JSON.stringify(['Rice', 'Kimchi Stew', 'Stir-fried Pork', 'Seaweed']),
     },
   });
 
@@ -58,7 +58,7 @@ async function main() {
       title: 'Midterm Exam',
       date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days later
       color: '#EF4444',
-      type: EventType.ACADEMIC,
+      type: 'ACADEMIC',
     },
   });
 
@@ -67,7 +67,7 @@ async function main() {
     data: {
       title: 'Welcome to the Dashboard',
       content: 'This is a notice for everyone.',
-      type: PostType.NOTICE,
+      type: 'NOTICE',
       authorId: admin.id,
     },
   });
@@ -76,7 +76,7 @@ async function main() {
     data: {
       title: 'Study group for Algorithms',
       content: 'Anyone wants to join?',
-      type: PostType.COMMUNITY,
+      type: 'COMMUNITY',
       category: 'Study',
       authorId: student.id,
     },

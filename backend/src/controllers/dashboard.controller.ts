@@ -41,7 +41,13 @@ export const getTodayMenu = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(200).json(menus);
+    // Parse items from JSON string back to array
+    const formattedMenus = menus.map(menu => ({
+      ...menu,
+      items: JSON.parse(menu.items as string)
+    }));
+
+    res.status(200).json(formattedMenus);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
   }

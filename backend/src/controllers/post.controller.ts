@@ -1,13 +1,12 @@
 import { Request, Response } from 'express';
 import prisma from '../utils/prisma';
 import { z } from 'zod';
-import { PostType } from '@prisma/client';
 
 const postSchema = z.object({
   title: z.string().min(1),
   content: z.string().min(1),
   category: z.string().optional(),
-  type: z.nativeEnum(PostType),
+  type: z.enum(['NOTICE', 'COMMUNITY']),
 });
 
 export const getPosts = async (req: Request, res: Response) => {
@@ -17,7 +16,7 @@ export const getPosts = async (req: Request, res: Response) => {
 
     const where: any = {};
     if (type) {
-      where.type = type as PostType;
+      where.type = type as string;
     }
 
     const [posts, total] = await Promise.all([
