@@ -110,7 +110,7 @@ export const createPost = async (req: any, res: Response) => {
     res.status(201).json(post);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ errors: error.errors });
+      return res.status(400).json({ errors: error.issues });
     }
     res.status(500).json({ message: 'Internal server error' });
   }
@@ -138,7 +138,7 @@ export const updatePost = async (req: any, res: Response) => {
     res.status(200).json(post);
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ errors: error.errors });
+      return res.status(400).json({ errors: error.issues });
     }
     res.status(500).json({ message: 'Internal server error' });
   }
